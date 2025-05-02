@@ -1,8 +1,9 @@
 import Internship from '../models/Internship.js';
 
+// Create Internship
 export const createInternship = async (req, res) => {
   try {
-    const { userName, internshipName } = req.body;
+    const { userName, internshipName, fromDate, toDate } = req.body;
 
     const lastRecord = await Internship.findOne().sort({ createdAt: -1 });
 
@@ -15,10 +16,20 @@ export const createInternship = async (req, res) => {
 
     const newId = `CN/ION/${nextNumber}`;
 
+    // Convert fromDate and toDate to Date objects
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+
+    // Calculate duration in months
+    const months = (to.getFullYear() - from.getFullYear()) * 12 + (to.getMonth() - from.getMonth());
+
     const newInternship = new Internship({
       id: newId,
       userName,
       internshipName,
+      fromDate: from,
+      toDate: to,
+      durationInMonths: months,
     });
 
     await newInternship.save();
@@ -29,6 +40,7 @@ export const createInternship = async (req, res) => {
   }
 };
 
+// Get All Internships
 export const getAllInternships = async (req, res) => {
   try {
     const searchQuery = req.query.search || '';

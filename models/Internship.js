@@ -1,3 +1,4 @@
+// models/Internship.js
 import mongoose from 'mongoose';
 
 const internshipSchema = new mongoose.Schema({
@@ -12,6 +13,18 @@ const internshipSchema = new mongoose.Schema({
   },
   internshipName: {
     type: String,
+    required: true,
+  },
+  fromDate: {
+    type: Date,
+    required: true,
+  },
+  toDate: {
+    type: Date,
+    required: true,
+  },
+  durationInMonths: {
+    type: Number,
     required: true,
   },
 }, {
